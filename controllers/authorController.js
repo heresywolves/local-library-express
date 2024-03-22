@@ -3,9 +3,6 @@ const asyncHandler = require("express-async-handler");
 const Book = require("../models/book");
 const { body, validationResult } = require("express-validator");
 
-
-
-
 // Display list of all Authors.
 exports.author_list = asyncHandler(async (req, res, next) => {
   const allAuthors = await Author.find().sort({ family_name: 1 }).exec();
@@ -150,8 +147,10 @@ exports.author_delete_post = asyncHandler(async (req, res, next) => {
 exports.author_update_get = asyncHandler(async (req, res, next) => {
   const author = await Author.findById(req.params.id).exec();
 
-  console.log(author);
-  res.render("author_form", { title: "Update Author", author: author });
+  res.render("author_form", { title: "Update Author", author: author,
+    date_of_birth_for_inputs: author.date_of_birth_for_inputs,
+    date_of_death_for_inputs: author.date_of_death_for_inputs,
+  });
 
 });
 

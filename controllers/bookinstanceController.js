@@ -134,13 +134,13 @@ exports.bookinstance_update_get = asyncHandler(async (req, res, next) => {
     err.status = 404;
     return next(err);
   }
-  console.log(bookInstance.book._id.toString())
 
   res.render("bookinstance_form", {
     title: "Update instance",
     book_instance: bookInstance,
     book_list: allBooks,
-    selected_book: bookInstance.book._id.toString()
+    selected_book: bookInstance.book._id.toString(),
+    due_back_for_inputs: bookInstance.due_back_for_inputs,
   });
 });
 
