@@ -256,23 +256,24 @@ exports.book_update_post = [
 ];
 
 exports.book_delete_get = asyncHandler(async (req, res, next) => {
-  // // Get details of author and all their books (in parallel)
-  // const [author, allBooksByAuthor] = await Promise.all([
-  //   Author.findById(req.params.id).exec(),
-  //   Book.find({ author: req.params.id }, "title summary").exec(),
-  // ]);
+  // Get details of books, book instances for specific book
+  const [book, bookInstances] = await Promise.all([
+    Book.findById(req.params.id).populate("author").populate("genre").exec(),
+    BookInstance.find({ book: req.params.id }).exec(),
+  ]);
 
-  // if (author === null) {
-  //   // No results.
-  //   res.redirect("/catalog/authors");
-  // }
+  if (book === null) {
+    // No results.
+    const err = new Error("Book not found");
+    err.status = 404;
+    return next(err);
+  }
 
-  // res.render("author_delete", {
-  //   title: "Delete Author",
-  //   author: author,
-  //   author_books: allBooksByAuthor,
-  // });
-  res.send("NOT IMPLEMENTED: Book update POST");
+  res.render("book_delete", {
+    title: book.title,
+    book: book,
+    book_instances: bookInstances,
+  });
 });
 
 exports.book_delete_post = asyncHandler(async (req, res, next) => {
