@@ -255,9 +255,24 @@ exports.book_update_post = [
   }),
 ];
 
-
 exports.book_delete_get = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Book update GET");
+  // // Get details of author and all their books (in parallel)
+  // const [author, allBooksByAuthor] = await Promise.all([
+  //   Author.findById(req.params.id).exec(),
+  //   Book.find({ author: req.params.id }, "title summary").exec(),
+  // ]);
+
+  // if (author === null) {
+  //   // No results.
+  //   res.redirect("/catalog/authors");
+  // }
+
+  // res.render("author_delete", {
+  //   title: "Delete Author",
+  //   author: author,
+  //   author_books: allBooksByAuthor,
+  // });
+  res.send("NOT IMPLEMENTED: Book update POST");
 });
 
 exports.book_delete_post = asyncHandler(async (req, res, next) => {

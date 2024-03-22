@@ -15,10 +15,11 @@ block content
             a(href=book.url) #{book.title}
 
   else
-    p Do you really want to delete this Author?
+    p Do you really want to delete this Genre?
 
     form(method='POST')
       div.form-group
         input#genreid.form-control(type='hidden', name='genreid', value=genre._id )
 
       button.btn.btn-primary(type='submit') Delete
+
