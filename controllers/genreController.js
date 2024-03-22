@@ -105,7 +105,25 @@ exports.genre_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle Genre delete on POST.
 exports.genre_delete_post = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED: Genre delete POST");
+
+  const [genre, booksInGenre] = await Promise.all([
+    Genre.findById(req.params.id).exec(),
+    Book.find({ genre: req.params.id }, "title").exec(),
+  ]);
+
+  if (booksInGenre.length > 0) {
+    // Genre has books. Render in same way as for GET route.
+    res.render("genre_delete", {
+      title: "Delete genre",
+      genre,
+      booksInGenre,
+    });
+    return;
+  } else {
+    // Genre has no books. Delete object and redirect to the list of genres.
+    await Genre.findByIdAndDelete(req.body.genreid);
+    res.redirect("/catalog/genres");
+  }
 });
 
 // Display Genre update form on GET.
